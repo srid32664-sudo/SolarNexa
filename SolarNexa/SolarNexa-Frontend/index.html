@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarNexa | Community Solar Energy Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark"><span>☀</span></div>
+            <div class="brand-copy">
+                <h2>SolarNexa</h2>
+                <span>COMMUNITY ENERGY</span>
+            </div>
+        </div>
+
+        <div class="sidebar-label">CONTROL CENTER</div>
+        <nav class="navigation">
+            <a href="#" class="nav-item active" data-section="dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+            <a href="#" class="nav-item" data-section="generation"><span class="nav-icon">☀</span><span>Solar Generation</span></a>
+            <a href="#" class="nav-item" data-section="households"><span class="nav-icon">⌂</span><span>Households</span></a>
+            <a href="#" class="nav-item" data-section="allocation"><span class="nav-icon">⇄</span><span>Energy Allocation</span></a>
+            <a href="#" class="nav-item" data-section="consumption"><span class="nav-icon">⚡</span><span>Consumption</span></a>
+            <a href="#" class="nav-item" data-section="analytics"><span class="nav-icon">◒</span><span>Analytics</span></a>
+            <a href="#" class="nav-item" data-section="alerts"><span class="nav-icon">!</span><span>Alerts</span><span class="nav-alert-dot"></span></a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="connection-card">
+                <span class="pulse-dot"></span>
+                <div>
+                    <strong>System Online</strong>
+                    <small>Spring Boot API connected</small>
+                </div>
+            </div>
+            <div class="sidebar-version">SOLARNEXA v1.0</div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="page-heading">
+                <div class="eyebrow">SOLAR ENERGY OPERATIONS</div>
+                <h1 id="page-title">Dashboard</h1>
+                <p id="page-subtitle">Community solar energy overview</p>
+            </div>
+            <div class="topbar-right">
+                <div class="live-chip"><span></span> LIVE SYSTEM</div>
+                <div class="date-box">
+                    <small>TODAY</small>
+                    <strong id="current-date">--</strong>
+                </div>
+                <div class="profile">
+                    <div class="profile-avatar">SN</div>
+                    <div><strong>SolarNexa Admin</strong><small>Energy Manager</small></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard-section" class="page-section active-section">
+            <div class="hero-card">
+                <div class="hero-content">
+                    <span class="hero-kicker">☀ COMMUNITY ROOFTOP SOLAR</span>
+                    <h2>Powering communities with <span>cleaner energy.</span></h2>
+                    <p>Monitor generation, household consumption, energy allocation and grid export from one intelligent control center.</p>
+                    <div class="hero-actions">
+                        <button class="hero-button" onclick="document.querySelector('[data-section=\'generation\']').click()">View Generation <span>→</span></button>
+                        <div class="hero-status"><span class="pulse-dot"></span> Plant network operational</div>
+                    </div>
+                </div>
+                <div class="solar-art" aria-hidden="true">
+                    <div class="sun-core">☀</div>
+                    <div class="orbit orbit-one"></div>
+                    <div class="orbit orbit-two"></div>
+                    <div class="panel-art panel-one"></div>
+                    <div class="panel-art panel-two"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card accent-yellow"><div class="stat-icon">☀</div><div><span>Solar Capacity</span><h3 id="capacity-value">0 kW</h3><small>Installed capacity</small></div><b class="card-glow"></b></div>
+                <div class="stat-card accent-blue"><div class="stat-icon">⚡</div><div><span>Today's Generation</span><h3 id="generation-value">0 kWh</h3><small>Energy generated today</small></div><b class="card-glow"></b></div>
+                <div class="stat-card accent-purple"><div class="stat-icon">⌂</div><div><span>Households</span><h3 id="household-value">0</h3><small>Connected households</small></div><b class="card-glow"></b></div>
+                <div class="stat-card accent-green"><div class="stat-icon">↗</div><div><span>Grid Export</span><h3 id="export-value">0 kWh</h3><small>Available for export</small></div><b class="card-glow"></b></div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="panel chart-panel">
+                    <div class="panel-header"><div><span class="panel-kicker">ENERGY PERFORMANCE</span><h3>Today's Energy Overview</h3><p>Generation, allocation, consumption and grid export</p></div><span class="live-badge"><i></i> LIVE</span></div>
+                    <div class="chart-container"><canvas id="energyChart"></canvas></div>
+                </div>
+                <div class="panel flow-panel">
+                    <div class="panel-header"><div><span class="panel-kicker">POWER DISTRIBUTION</span><h3>Energy Flow</h3><p>Where today's solar energy is going</p></div></div>
+                    <div class="energy-flow">
+                        <div class="flow-item"><div class="flow-icon solar">☀</div><div class="flow-details"><span>Solar Generation</span><strong id="flow-generation">0 kWh</strong></div></div>
+                        <div class="flow-line"><span></span></div>
+                        <div class="flow-item"><div class="flow-icon home">⌂</div><div class="flow-details"><span>Household Consumption</span><strong id="flow-consumption">0 kWh</strong></div></div>
+                        <div class="flow-line"><span></span></div>
+                        <div class="flow-item"><div class="flow-icon grid">↗</div><div class="flow-details"><span>Grid Export</span><strong id="flow-export">0 kWh</strong></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-grid">
+                <div class="panel allocation-panel">
+                    <div class="panel-header"><div><span class="panel-kicker">COMMUNITY SHARING</span><h3>Energy Allocation</h3><p>Solar energy assigned to households</p></div><strong class="allocation-value" id="allocation-value">0 kWh</strong></div>
+                    <div class="allocation-track"><div class="progress-bar" id="allocation-progress"></div></div>
+                    <div class="progress-info"><span>Allocated energy</span><strong id="allocation-percentage">0%</strong></div>
+                </div>
+                <div class="panel system-panel">
+                    <div class="panel-header"><div><span class="panel-kicker">PLANT HEALTH</span><h3>System Status</h3></div><span class="status-badge"><i></i> NORMAL</span></div>
+                    <div class="system-metrics"><div><span>API</span><strong>ONLINE</strong></div><div><span>DATABASE</span><strong>CONNECTED</strong></div><div><span>MONITORING</span><strong>ACTIVE</strong></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GENERATION -->
+        <section id="generation-section" class="page-section">
+            <div class="module-hero generation-hero"><div><span class="module-label">SOLAR OPERATIONS</span><h2>Solar Generation</h2><p>Record and monitor clean energy produced by community rooftop installations.</p></div><button class="primary-button" onclick="openGenerationForm()">＋ Add Generation</button></div>
+            <div class="module-kpis"><div class="module-kpi yellow"><span>☀</span><div><small>GENERATION RECORDS</small><strong id="generation-record-count">Live</strong></div></div><div class="module-kpi blue"><span>⚡</span><div><small>ENERGY UNIT</small><strong>kWh</strong></div></div><div class="module-kpi green"><span>●</span><div><small>PLANT STATUS</small><strong>ONLINE</strong></div></div></div>
+            <div id="generation-form" class="form-panel hidden"><div class="form-title"><div><span class="module-label">NEW RECORD</span><h3>Add Generation Record</h3></div><button class="close-button" onclick="closeGenerationForm()">×</button></div><div class="form-grid"><div class="form-group"><label>Generation Date</label><input type="date" id="generation-date"></div><div class="form-group"><label>Installation</label><select id="generation-installation"><option value="">Select installation</option></select></div><div class="form-group"><label>Energy Generated <span>(kWh)</span></label><input type="number" id="generation-units" min="0" step="0.01" placeholder="Example: 1000"></div></div><div class="form-actions"><button class="secondary-button" onclick="closeGenerationForm()">Cancel</button><button class="primary-button" onclick="saveGeneration()">Save Generation</button></div></div>
+            <div class="panel table-panel"><div class="panel-header"><div><span class="panel-kicker">PRODUCTION HISTORY</span><h3>Generation Records</h3><p>Recorded solar output by installation and date</p></div><span class="table-status">● DATA</span></div><div class="table-wrapper"><table><thead><tr><th>ID</th><th>Date</th><th>Installation</th><th>Energy Generated</th><th>Action</th></tr></thead><tbody id="generation-table-body"><tr><td colspan="5" class="loading-row">Loading generation records...</td></tr></tbody></table></div></div>
+        </section>
+
+        <!-- HOUSEHOLDS -->
+        <section id="households-section" class="page-section">
+            <div class="module-hero household-hero"><div><span class="module-label">COMMUNITY NETWORK</span><h2>Households</h2><p>Manage participating homes and their community solar allocation ratios.</p></div><button class="primary-button" onclick="openHouseholdForm()">＋ Add Household</button></div>
+            <div class="module-kpis"><div class="module-kpi purple"><span>⌂</span><div><small>COMMUNITY MEMBERS</small><strong>HOUSEHOLDS</strong></div></div><div class="module-kpi yellow"><span>％</span><div><small>ALLOCATION RULE</small><strong>MAX 100%</strong></div></div><div class="module-kpi green"><span>✓</span><div><small>VALIDATION</small><strong>ACTIVE</strong></div></div></div>
+            <div id="household-form-panel" class="form-panel hidden"><div class="form-title"><div><span class="module-label">HOUSEHOLD REGISTRATION</span><h3>Add Household</h3></div><button class="close-button" onclick="closeHouseholdForm()">×</button></div><div class="form-grid"><div class="form-group"><label>Household Name</label><input type="text" id="household-name" placeholder="Example: Kumar Residence"></div><div class="form-group"><label>Solar Installation</label><select id="household-installation"><option value="">Select Installation</option></select></div><div class="form-group"><label>Allocation Ratio (%)</label><input type="number" id="household-ratio" min="0" max="100" step="0.1" placeholder="Example: 20"></div></div><div class="form-actions"><button class="secondary-button" onclick="closeHouseholdForm()">Cancel</button><button class="primary-button" onclick="saveHousehold()">Save Household</button></div></div>
+            <div class="panel table-panel"><div class="panel-header"><div><span class="panel-kicker">COMMUNITY DIRECTORY</span><h3>Registered Households</h3><p>Allocation share and connected solar installation</p></div></div><div class="table-wrapper"><table><thead><tr><th>ID</th><th>Household Name</th><th>Allocation</th><th>Installation</th><th>Action</th></tr></thead><tbody id="household-table-body"><tr><td colspan="5" class="loading-row">Loading households...</td></tr></tbody></table></div></div>
+        </section>
+
+        <!-- ALLOCATION -->
+        <section id="allocation-section" class="page-section">
+            <div class="module-hero allocation-hero"><div><span class="module-label">ENERGY DISTRIBUTION</span><h2>Energy Allocation</h2><p>Calculate how generated solar energy is distributed across participating households.</p></div></div>
+            <div class="panel calculator-panel"><div class="panel-header"><div><span class="panel-kicker">ALLOCATION CALCULATOR</span><h3>Calculate Daily Allocation</h3><p>Select an installation and generation date to calculate distribution.</p></div><div class="calculator-icon">⇄</div></div><div class="form-grid"><div class="form-group"><label>Solar Installation</label><select id="allocation-installation"><option value="">Select Installation</option></select></div><div class="form-group"><label>Generation Date</label><input type="date" id="allocation-date"></div></div><div class="form-actions"><button class="primary-button" onclick="calculateAllocation()">Calculate Allocation →</button></div></div>
+            <div id="allocation-summary" class="allocation-summary hidden"><div class="allocation-summary-card"><span>Generated Energy</span><strong id="allocation-generated">0 kWh</strong></div><div class="allocation-summary-card"><span>Total Allocated</span><strong id="allocation-total">0 kWh</strong></div><div class="allocation-summary-card"><span>Total Consumption</span><strong id="allocation-consumed">0 kWh</strong></div><div class="allocation-summary-card"><span>Total Export</span><strong id="allocation-exported">0 kWh</strong></div></div>
+            <div class="energy-route"><div class="route-node solar-node"><b>☀</b><span>SOLAR</span><strong>GENERATION</strong></div><div class="route-line"></div><div class="route-node home-node"><b>⌂</b><span>COMMUNITY</span><strong>HOUSEHOLDS</strong></div><div class="route-line"></div><div class="route-node grid-node"><b>↗</b><span>GRID</span><strong>EXPORT</strong></div></div>
+            <div class="panel table-panel"><div class="panel-header"><div><span class="panel-kicker">HOUSEHOLD DISTRIBUTION</span><h3>Allocation Results</h3><p>Daily energy assigned to each participating household</p></div></div><div class="table-wrapper"><table><thead><tr><th>Household</th><th>Allocation</th><th>Generated</th><th>Allocated</th><th>Consumed</th><th>Remaining</th><th>Export</th></tr></thead><tbody id="allocation-table-body"><tr><td colspan="7" class="loading-row">Select an installation and date to calculate allocation.</td></tr></tbody></table></div></div>
+        </section>
+
+        <!-- CONSUMPTION -->
+        <section id="consumption-section" class="page-section">
+            <div class="module-hero consumption-hero"><div><span class="module-label">ENERGY MONITORING</span><h2>Consumption</h2><p>Track household energy usage and recorded grid export across the community.</p></div><button class="primary-button" onclick="openConsumptionForm()">＋ Add Consumption</button></div>
+            <div class="module-kpis"><div class="module-kpi blue"><span>⚡</span><div><small>USAGE TRACKING</small><strong>ACTIVE</strong></div></div><div class="module-kpi green"><span>↗</span><div><small>EXPORT TRACKING</small><strong>ACTIVE</strong></div></div><div class="module-kpi purple"><span>⌂</span><div><small>HOUSEHOLD LINK</small><strong>CONNECTED</strong></div></div></div>
+            <div id="consumption-form-panel" class="form-panel hidden"><div class="form-title"><div><span class="module-label">CONSUMPTION RECORD</span><h3>Add Energy Consumption</h3></div><button class="close-button" onclick="closeConsumptionForm()">×</button></div><div class="form-grid"><div class="form-group"><label>Consumption Date</label><input type="date" id="consumption-date"></div><div class="form-group"><label>Household</label><select id="consumption-household"><option value="">Select Household</option></select></div><div class="form-group"><label>Units Consumed (kWh)</label><input type="number" id="units-consumed" min="0" step="0.01" placeholder="Example: 12.5"></div><div class="form-group"><label>Units Exported (kWh)</label><input type="number" id="units-exported" min="0" step="0.01" placeholder="Example: 3.5"></div></div><div class="form-actions"><button class="secondary-button" onclick="closeConsumptionForm()">Cancel</button><button class="primary-button" onclick="saveConsumption()">Save Consumption</button></div></div>
+            <div class="panel table-panel"><div class="panel-header"><div><span class="panel-kicker">USAGE HISTORY</span><h3>Consumption Records</h3><p>Household usage and grid export records</p></div></div><div class="table-wrapper"><table><thead><tr><th>ID</th><th>Date</th><th>Household</th><th>Consumed</th><th>Exported</th><th>Action</th></tr></thead><tbody id="consumption-table-body"><tr><td colspan="6" class="loading-row">Loading consumption records...</td></tr></tbody></table></div></div>
+        </section>
+
+        <!-- ANALYTICS -->
+        <section id="analytics-section" class="page-section">
+            <div class="module-hero analytics-hero"><div><span class="module-label">DATA INTELLIGENCE</span><h2>Energy Analytics</h2><p>Understand generation, consumption, export and allocation performance.</p></div><button class="secondary-button" onclick="loadAnalytics()">↻ Refresh Analytics</button></div>
+            <div class="analytics-kpi-grid"><div class="analytics-card"><div class="analytics-icon yellow">☀</div><div><span>Total Generation</span><strong id="analytics-generation">0 kWh</strong></div></div><div class="analytics-card"><div class="analytics-icon blue">⚡</div><div><span>Total Consumption</span><strong id="analytics-consumption">0 kWh</strong></div></div><div class="analytics-card"><div class="analytics-icon green">↗</div><div><span>Total Export</span><strong id="analytics-export">0 kWh</strong></div></div><div class="analytics-card"><div class="analytics-icon purple">◈</div><div><span>Allocated Energy</span><strong id="analytics-allocation">0 kWh</strong></div></div></div>
+            <div class="analytics-chart-grid"><div class="panel analytics-panel"><div class="panel-header"><div><span class="panel-kicker">ENERGY PERFORMANCE</span><h3>Generation vs Consumption</h3></div></div><div class="analytics-chart-container"><canvas id="generationConsumptionChart"></canvas></div></div><div class="panel analytics-panel"><div class="panel-header"><div><span class="panel-kicker">ENERGY DISTRIBUTION</span><h3>Energy Distribution</h3></div></div><div class="analytics-chart-container"><canvas id="energyDistributionChart"></canvas></div></div></div>
+            <div class="panel analytics-performance"><div class="panel-header"><div><span class="panel-kicker">PERFORMANCE INSIGHTS</span><h3>Solar Performance Summary</h3></div></div><div class="performance-grid"><div class="performance-item"><span>Generation Utilization</span><strong id="generation-utilization">0%</strong><div class="analytics-progress"><div id="generation-utilization-bar" class="analytics-progress-bar"></div></div></div><div class="performance-item"><span>Export Ratio</span><strong id="export-ratio">0%</strong><div class="analytics-progress"><div id="export-ratio-bar" class="analytics-progress-bar"></div></div></div><div class="performance-item"><span>Allocation Efficiency</span><strong id="allocation-efficiency">0%</strong><div class="analytics-progress"><div id="allocation-efficiency-bar" class="analytics-progress-bar"></div></div></div></div></div>
+        </section>
+
+        <!-- ALERTS -->
+        <section id="alerts-section" class="page-section">
+            <div class="module-hero alerts-hero"><div><span class="module-label">SYSTEM MONITORING</span><h2>Alerts & Monitoring</h2><p>Review generation, allocation and consumption conditions across the solar network.</p></div><button class="secondary-button" onclick="loadAlerts()">↻ Scan System</button></div>
+            <div class="alerts-summary"><div class="alert-summary-card critical"><div class="alert-icon">!</div><div><strong id="criticalAlertCount">0</strong><span>Critical Alerts</span></div></div><div class="alert-summary-card warning"><div class="alert-icon">!</div><div><strong id="warningAlertCount">0</strong><span>Warnings</span></div></div><div class="alert-summary-card normal"><div class="alert-icon">✓</div><div><strong id="normalAlertCount">0</strong><span>Normal Status</span></div></div></div>
+            <div class="panel alerts-container"><div class="panel-header"><div><span class="panel-kicker">NETWORK HEALTH</span><h3>System Alerts</h3><p>Automatic checks based on your SolarNexa business rules</p></div><span class="status-badge"><i></i> MONITORING</span></div><div id="alertsList"><div class="no-alerts"><div class="no-alert-icon">✓</div><h3>Ready to scan</h3><p>Click “Scan System” to check the current energy conditions.</p></div></div></div>
+        </section>
+    </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
